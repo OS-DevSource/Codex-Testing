@@ -1,0 +1,196 @@
+:root {
+  --bg-gradient: radial-gradient(circle at top left, #1a1133, #05030f 55%, #030110 100%);
+  --surface: rgba(17, 11, 28, 0.72);
+  --glow-blue: #5bc2ff;
+  --glow-magenta: #ff4dff;
+  --glow-green: #44ffb9;
+  --text-primary: #f2f5ff;
+  --divider: rgba(242, 245, 255, 0.45);
+  --pulse-left: 0;
+  --pulse-right: 0;
+  --pulse-top: 0;
+  --pulse-bottom: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+.game-shell {
+  width: min(96vw, 980px);
+  display: grid;
+  gap: 1.5rem;
+  padding: 2rem clamp(1.5rem, 2vw, 3rem);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.35));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), 0 0 60px rgba(91, 194, 255, 0.2);
+  backdrop-filter: blur(16px);
+}
+
+.hud,
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.hud {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+}
+
+.scoreboard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scoreboard span {
+  text-shadow: 0 0 12px rgba(91, 194, 255, 0.8);
+}
+
+.scoreboard .divider {
+  color: var(--divider);
+  text-shadow: none;
+}
+
+.ghost-button,
+.primary-button {
+  font-size: 0.95rem;
+  padding: 0.65rem 1.5rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  transition: transform 180ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+
+.ghost-button {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.ghost-button:hover,
+.primary-button:hover {
+  transform: translateY(-2px);
+}
+
+.primary-button {
+  background: linear-gradient(90deg, var(--glow-blue), var(--glow-magenta));
+  color: #0e041f;
+  box-shadow: 0 10px 30px rgba(91, 194, 255, 0.5);
+}
+
+.canvas-wrapper {
+  position: relative;
+  border-radius: 18px;
+  padding: clamp(1rem, 2vw, 2rem);
+  background: var(--surface);
+  box-shadow: inset 0 0 40px rgba(91, 194, 255, 0.2);
+}
+
+.canvas-wrapper::before,
+.canvas-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: clamp(0.4rem, 1vw, 0.65rem);
+  border-radius: 12px;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+.canvas-wrapper::before {
+  background:
+    radial-gradient(circle at 10% 50%, rgba(91, 194, 255, calc(var(--pulse-left) * 0.45)) 0 45%, transparent 65%)
+    , radial-gradient(circle at 90% 50%, rgba(255, 77, 255, calc(var(--pulse-right) * 0.45)) 0 45%, transparent 65%);
+  opacity: max(var(--pulse-left), var(--pulse-right));
+}
+
+.canvas-wrapper::after {
+  background:
+    radial-gradient(circle at 50% 8%, rgba(91, 194, 255, calc(var(--pulse-top) * 0.35)) 0 45%, transparent 70%)
+    , radial-gradient(circle at 50% 92%, rgba(68, 255, 185, calc(var(--pulse-bottom) * 0.35)) 0 45%, transparent 70%);
+  opacity: max(var(--pulse-top), var(--pulse-bottom));
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: radial-gradient(circle at center, rgba(5, 12, 32, 0.9), rgba(1, 3, 9, 0.95));
+  box-shadow: inset 0 0 60px rgba(91, 194, 255, 0.35);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(8, 3, 18, 0.85);
+  border-radius: 12px;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 200ms ease, visibility 200ms ease;
+}
+
+.overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.overlay h1 {
+  font-size: clamp(2rem, 3.5vw, 3.5rem);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  text-shadow: 0 0 20px rgba(91, 194, 255, 0.9), 0 0 40px rgba(255, 77, 255, 0.6);
+}
+
+.overlay p {
+  max-width: 360px;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+  color: rgba(242, 245, 255, 0.8);
+}
+
+.footer {
+  color: rgba(242, 245, 255, 0.65);
+  font-size: 0.9rem;
+}
+
+.footer p {
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .game-shell {
+    padding: 1.5rem;
+  }
+
+  canvas {
+    height: 70vh;
+  }
+}

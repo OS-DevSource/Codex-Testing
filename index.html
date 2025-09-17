@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neon Pong</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <header class="hud">
+      <div class="scoreboard">
+        <span id="playerScore">0</span>
+        <span class="divider">:</span>
+        <span id="cpuScore">0</span>
+      </div>
+      <button id="restart" class="ghost-button" type="button">Restart</button>
+    </header>
+
+    <section class="canvas-wrapper">
+      <canvas id="game" width="900" height="600"></canvas>
+      <div id="overlay" class="overlay">
+        <h1>Neon Pong</h1>
+        <p>Move your paddle with the mouse or arrow keys.</p>
+        <button id="start" class="primary-button" type="button">Play</button>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>First to 7 points wins. Built with vanilla JavaScript and lots of glow.</p>
+    </footer>
+  </main>
+
+  <script src="pong.js" defer></script>
+</body>
+</html>
